@@ -1,6 +1,12 @@
 'use strict'
 
+const PLAY_INTERNAL = 3 * 60 * 1000 ;
 
+const FEED_INTERNAL = 3 * 60 * 1000 ;
+
+const MAX_FEED_TIMES = 3;
+
+const FEED_EXP = 10;
 
 var PetContract = function(){
     //user's game data
@@ -13,6 +19,13 @@ var PetContract = function(){
 
 // the game data for single player
 var GameData = function(from){
+
+    var zero = new Date();
+        zero.setHours(0);
+        zero.setMinutes(0);
+        zero.setSeconds(0);
+    var todayZeroTimeMillis = zero.getTime();
+
     //pet owner
     this.owner = from;
     //pet experience
@@ -20,11 +33,11 @@ var GameData = function(from){
     //day feed count
     this.feedCount = 0;
     //last feed time
-    this.lastFeedTimeMillis = Date.parse(new Date());
+    this.lastFeedTimeMillis = todayZeroTimeMillis;
     //this is a value between 0 and 1
     this.mood = 0.1;
     //last play time
-    this.lastPlayTimeMillis = Date.parse(new Date());
+    this.lastPlayTimeMillis = todayZeroTimeMillis;
 }
 
 PetContract.prototype = {
@@ -34,12 +47,13 @@ PetContract.prototype = {
      * get a pet if already have data or create.
      */
     getPetInfo:function(){
-        var userAddress = Blockchain.transaction.from;
         
-        var gameData = this.gameDatas.get(from);
+        var userAddress = Blockchain.transaction.from;
+
+        var gameData = this.getGameData();
         
         if(!gameData){
-            gameData = new gameData(userAddress);
+            gameData = new GameData(userAddress);
         }
 
         var zero = new Date();
@@ -58,13 +72,70 @@ PetContract.prototype = {
             gameData.mood = 0.1;
         }
         
-        this.gameData.put(from,gameData);
+        this.saveGameData(gameData);
         return gameData;
 
-    }
+    },
 
 
-    playWithPet(){
+    playWithPet:function(){
+        var gameData = this.getGameData();
 
+        if(!gameData){
+            throw new Error("no game data found!");
+        }
+
+
+        var currentTimeMillis = Date.parse(new Date());
+
+        if(currentTimeMillis - gameData.lastPlayTimeMillis < PLAY_INTERNAL){
+            throw new Error("cann't play with pet until " + (gameData.lastPlayTimeMillis+PLAY_INTERNAL));
+        }
+
+
+        gameData.mood = gameData.mood * 1.3;
+
+        gameData.lastPlayTimeMillis = currentTimeMillis;
+
+        this.saveGameData(gameData);
+        
+    },
+
+
+    feedPet:function(){
+        var gameData = this.getGameData();
+
+        if(!gameData){
+            throw new Error("no game data found!");
+        }
+
+        var currentTimeMillis = Date.parse(new Date());
+
+        if(gameData.feedCount >MAX_FEED_TIMES){
+            throw new Error("already feed 3 times!");
+        }
+
+        if(currentTimeMillis - gameData.lastFeedTimeMillis < PLAY_INTERNAL){
+            throw new Error("cann't feed the pet until " + (gameData.lastFeedTimeMillis+PLAY_INTERNAL));
+        }
+
+        gameData.lastFeedTimeMillis = currentTimeMillis;
+        gameData.feedCount = gameData.feedCount + 1;
+        gameData.exp = gameData.exp + FEED_EXP * gameData.mood;
+        this.saveGameData(gameData);
+
+    },
+
+    getGameData : function(){
+        var userAddress = Blockchain.transaction.from;
+        var gameData = this.gameDatas.get(userAddress);
+        return gameData;
+    },
+
+    saveGameData : function(data){
+        var userAddress = Blockchain.transaction.from;
+        this.gameDatas.put(userAddress,data);
     }
 }
+
+module.exports = PetContract;
