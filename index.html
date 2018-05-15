@@ -1,13 +1,134 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-	<title>Blockchain Pet</title>
-	<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="./index.js"></script>
+    <title>养鸡</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!--custom-->
+    <link rel="stylesheet" href="./index.css">
+    <script src="./index.js"></script>
 </head>
 <body>
-
+<div class="container">
+    <div class="main">
+        <div class="row">
+            <h1>养鸡！</h1>
+        </div>
+        <ul class="nav nav-pills">
+            <li role="presentation" class="active"><a href="#">玩游戏</a></li>
+            <li role="presentation"><a href="#">排行榜</a></li>
+            <li role="presentation"><a href="#">玩法介绍</a></li>
+        </ul>
+        <hr/>
+        <div id="login">
+            <h3>请先登录！</h3>
+            <div class="input-group">
+                <div class="input-group-addon">钱包地址</div>
+                <input type="text" class="form-control" id="wallet-address" placeholder="输入你的钱包地址">
+            </div>
+            <p class="text-muted">如果你没有小鸡的话系统会自动帮你领养一只小鸡！</p>
+            <p class="bg-info" style="padding: 10px; font-weight: bold;">你必须安装<a href="https://github.com/ChengOrangeJu/WebExtensionWallet">Chrome钱包插件</a>才能正常使用本产品（已安装请忽略）</p>
+            <button class="btn btn-success" id="login-btn">登录</button>
+        </div>
+        <div id="main-content" style="display: none">
+            <h3>你的小鸡</h3>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="img-placeholder"></div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row property-line">
+                        <div class="col-sm-5">
+                            <span class="property-title">名称</span>
+                        </div>
+                        <div class="col-sm-7">
+                            <span class="property-content">小黄</span>
+                        </div>
+                    </div>
+                    <div class="row property-line">
+                        <div class="col-sm-5">
+                            <span class="property-title">代数</span>
+                        </div>
+                        <div class="col-sm-7">
+                            <span class="property-content">第一代</span>
+                        </div>
+                    </div>
+                    <div class="row property-line">
+                        <div class="col-sm-5">
+                            <span class="property-title">经验值</span>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="progress" style="margin-bottom: 0">
+                                <div class="progress-bar progress-bar-info"
+                                     role="progressbar"
+                                     aria-valuenow="90"
+                                     aria-valuemin="0"
+                                     aria-valuemax="200"
+                                     style="width: 45%">
+                                </div>
+                                <span class="progress-value">90/200</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row property-line">
+                        <div class="col-sm-5">
+                            <span class="property-title">饱食度</span>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="progress" style="margin-bottom: 0">
+                                <div class="progress-bar progress-bar-danger"
+                                     role="progressbar"
+                                     aria-valuenow="23"
+                                     aria-valuemin="0"
+                                     aria-valuemax="100"
+                                     style="width: 23%">
+                                </div>
+                                <span class="progress-value">23/100</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row property-line">
+                        <div class="col-sm-5">
+                            <span class="property-title">心情</span>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="progress" style="margin-bottom: 0">
+                                <div class="progress-bar progress-bar-success"
+                                     role="progressbar"
+                                     aria-valuenow="99"
+                                     aria-valuemin="0"
+                                     aria-valuemax="100"
+                                     style="width: 99%">
+                                </div>
+                                <span class="progress-value">99/100</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sep"></div>
+            <div class="row" style="position: relative">
+                <div class="action-bg"></div>
+                <div class="col-sm-4" style="text-align: center">
+                    <button class="btn btn-info action-feed">
+                        <span class="action-text">投食</span>
+                    </button>
+                </div>
+                <div class="col-sm-4" style="text-align: center">
+                    <button class="btn btn-info action-play">
+                        <span class="action-text">玩耍</span>
+                    </button>
+                </div>
+                <div class="col-sm-4" style="text-align: center">
+                    <button class="btn btn-info action-egg" disabled="disabled">
+                        <span class="action-text">下蛋</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

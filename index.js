@@ -1,4 +1,4 @@
-"strict";
+"use strict";
 
 $(document).ready(function(){
     init();
@@ -6,4 +6,4 @@ $(document).ready(function(){
 
 const init = function() {
 	console.log("Page Init...");
-}
+};
