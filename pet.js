@@ -13,7 +13,7 @@ var PetContract = function(){
     LocalContractStorage.defineMapProperty(this,"gameDatas");
     
     //total user count
-    LocalContractStorage.defineProperty(this,"userCounts");
+    LocalContractStorage.defineProperty(this,"userCount");
 
 }
 
@@ -41,7 +41,9 @@ var GameData = function(from){
 }
 
 PetContract.prototype = {
-    init:function(){},
+    init:function(){
+        this.userCount = 0;
+    },
 
     /**
      * get a pet if already have data or create.
@@ -54,6 +56,7 @@ PetContract.prototype = {
         
         if(!gameData){
             gameData = new GameData(userAddress);
+            this.userCount = this.userCount + 1;
         }
 
         var zero = new Date();
@@ -135,7 +138,23 @@ PetContract.prototype = {
     saveGameData : function(data){
         var userAddress = Blockchain.transaction.from;
         this.gameDatas.put(userAddress,data);
-    }
+    },
+
+    getUserCount :function(){
+        return this.userCount;
+    },
+
+    // getRank:function(){
+    //     var userDatas = new Array();
+    //     // convert map to array
+    //     this.gameDatas.forEach(value, key, map => {
+    //         userDatas.push({user:key,exp:value.exp});
+    //     });
+        
+    //     // var sortUserData = userDatas.sort(function(x,y){return x.exp<y.exp})
+    //     return userDatas;
+
+    // }
 }
 
 module.exports = PetContract;
