@@ -47,13 +47,31 @@ body {
     width: 8em;
     position: relative;
 }
+.action-feed-info{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    color: #133270;
+    font-weight: bold;
+    opacity: 0;
+}
+.action-play-info{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    color: #133270;
+    font-weight: bold;
+    opacity: 0;
+}
 .action-play{
     background-image: none; /*TODO*/
     height: 5em;
     width: 8em;
     position: relative;
 }
-.action-egg{
+.action-cloth{
     background-image: none; /*TODO*/
     height: 5em;
     width: 8em;

@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>养鸡</title>
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!--neb-->
+    <script src="./dist/nebulas.js"></script>
+    <script src="./dist/nebPay.js"></script>
 
     <!--custom-->
     <link rel="stylesheet" href="./index.css">
@@ -30,7 +34,8 @@
                 <input type="text" class="form-control" id="wallet-address" placeholder="输入你的钱包地址">
             </div>
             <p class="text-muted">如果你没有小鸡的话系统会自动帮你领养一只小鸡！</p>
-            <p class="bg-info" style="padding: 10px; font-weight: bold;">你必须安装<a href="https://github.com/ChengOrangeJu/WebExtensionWallet">Chrome钱包插件</a>才能正常使用本产品（已安装请忽略）</p>
+            <p class="bg-info" style="padding: 10px; font-weight: bold;">你必须安装<a
+                    href="https://github.com/ChengOrangeJu/WebExtensionWallet">Chrome钱包插件</a>才能正常使用本产品（已安装请忽略）</p>
             <button class="btn btn-success" id="login-btn">登录</button>
         </div>
         <div id="main-content" style="display: none">
@@ -45,7 +50,7 @@
                             <span class="property-title">名称</span>
                         </div>
                         <div class="col-sm-7">
-                            <span class="property-content">小黄</span>
+                            <span class="property-content" id="property-name">小黄</span>
                         </div>
                     </div>
                     <div class="row property-line">
@@ -53,7 +58,7 @@
                             <span class="property-title">代数</span>
                         </div>
                         <div class="col-sm-7">
-                            <span class="property-content">第一代</span>
+                            <span class="property-content" id="property-gen">第0代</span>
                         </div>
                     </div>
                     <div class="row property-line">
@@ -64,12 +69,13 @@
                             <div class="progress" style="margin-bottom: 0">
                                 <div class="progress-bar progress-bar-info"
                                      role="progressbar"
-                                     aria-valuenow="90"
+                                     aria-valuenow="0"
                                      aria-valuemin="0"
-                                     aria-valuemax="200"
-                                     style="width: 45%">
+                                     aria-valuemax="100"
+                                     id="property-exppro"
+                                     style="width: 0">
                                 </div>
-                                <span class="progress-value">90/200</span>
+                                <span class="progress-value" id="property-expval">0/100</span>
                             </div>
                         </div>
                     </div>
@@ -81,12 +87,13 @@
                             <div class="progress" style="margin-bottom: 0">
                                 <div class="progress-bar progress-bar-danger"
                                      role="progressbar"
-                                     aria-valuenow="23"
+                                     aria-valuenow="0"
                                      aria-valuemin="0"
                                      aria-valuemax="100"
-                                     style="width: 23%">
+                                     id="property-feedpro"
+                                     style="width: 0">
                                 </div>
-                                <span class="progress-value">23/100</span>
+                                <span class="progress-value" id="property-feedval">0/100</span>
                             </div>
                         </div>
                     </div>
@@ -98,12 +105,13 @@
                             <div class="progress" style="margin-bottom: 0">
                                 <div class="progress-bar progress-bar-success"
                                      role="progressbar"
-                                     aria-valuenow="99"
+                                     aria-valuenow="0"
                                      aria-valuemin="0"
                                      aria-valuemax="100"
-                                     style="width: 99%">
+                                     id="property-moodpro"
+                                     style="width: 0">
                                 </div>
-                                <span class="progress-value">99/100</span>
+                                <span class="progress-value" id="property-moodval">0/1</span>
                             </div>
                         </div>
                     </div>
@@ -113,21 +121,25 @@
             <div class="row" style="position: relative">
                 <div class="action-bg"></div>
                 <div class="col-sm-4" style="text-align: center">
-                    <button class="btn btn-info action-feed">
+                    <button class="btn btn-info action-feed" id="action-feed">
                         <span class="action-text">投食</span>
                     </button>
+                    <span class="action-feed-info">喂食成功</span>
                 </div>
                 <div class="col-sm-4" style="text-align: center">
-                    <button class="btn btn-info action-play">
+                    <button class="btn btn-info action-play" id="action-play">
                         <span class="action-text">玩耍</span>
                     </button>
+                    <span class="action-play-info">和小鸡一起玩耍</span>
                 </div>
                 <div class="col-sm-4" style="text-align: center">
-                    <button class="btn btn-info action-egg" disabled="disabled">
-                        <span class="action-text">下蛋</span>
+                    <button class="btn btn-info action-cloth" id="action-cloth" disabled="disabled">
+                        <span class="action-text">装扮</span>
                     </button>
                 </div>
             </div>
+            <div class="sep"></div>
+            <p class="bg-info" style="padding: 10px;">* 投食/玩耍 操作交易成功后有延时，请耐心等待状态刷新</p>
         </div>
     </div>
 </div>
