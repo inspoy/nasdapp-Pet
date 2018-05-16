@@ -102,6 +102,8 @@ PetContract.prototype = {
             gameData.mood = 0.1;
             gameData.diedCount = gameData.diedCount + 1;
             gameData.score = gameData.score - 10;
+            gameData.lastFeedTimeMillis = currentTimeMillis;
+            gameData.lastPlayTimeMillis = currentTimeMillis;
             this.saveGameData(gameData);
             return "pet died!";
         }
