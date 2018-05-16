@@ -1,10 +1,10 @@
-"use strict";
+﻿"use strict";
 
 $(document).ready(function () {
     init();
 });
 
-const dappContactAddress = "n1j3R1WnM2q63v5YxjBTYdvoUZ5jhAWrNZL";
+const dappContactAddress = "n1zaPPhMn4R2C1xU65YimVHAj4miAZeneUt";
 const nebulas = require("nebulas");
 const neb = new nebulas.Neb();
 neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
