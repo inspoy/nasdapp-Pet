@@ -21,6 +21,8 @@ const MAX_EXP = 100;
 var PetContract = function(){
     //user's game data
     LocalContractStorage.defineMapProperty(this,"gameDatas");
+
+    LocalContractStorage.defineMapProperty(this,"gameDataIndex");
     
     //total user count
     LocalContractStorage.defineProperty(this,"userCount");
@@ -78,6 +80,7 @@ PetContract.prototype = {
         
         if(!gameData){
             gameData = new GameData(userAddress);
+            this.gameDataIndex.put(this.userCount,userAddress);
             this.userCount = this.userCount + 1;
         }
 
@@ -225,17 +228,21 @@ PetContract.prototype = {
         return this.userCount;
     },
 
-    // getRank:function(){
-    //     var userDatas = new Array();
-    //     // convert map to array
-    //     this.gameDatas.forEach(value, key, map => {
-    //         userDatas.push({user:key,exp:value.exp});
-    //     });
-        
-    //     // var sortUserData = userDatas.sort(function(x,y){return x.exp<y.exp})
-    //     return userDatas;
+    getRank:function(){
+        var userDatas = new Array();
+        for(var i = 0;i<this.userCount;i++){
+            var address = this.gameDataIndex.get(i);
+            var data = this.gameDatas.get(address);
+            userDatas.push({
+                score:data.score,
+                generation:data.generation,
+                diedCount:data.diedCount,
+                owner:data.owner
+            });
+        }
+        return userDatas.sort(function (a,b){return a.score<b.score}).slice(0,500);
 
-    // }
+    }
 }
 
 module.exports = PetContract;
