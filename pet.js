@@ -90,6 +90,12 @@ var GameData = function(from){
 
     //双倍积分卡截止时间
     this.doubleScoreTimeMillis = currentTimeMillis;
+
+    //总共支付的nas
+    this.totalPaidNas = 0;
+
+    //总共获得的nas
+    this.totalRewardNas = 0;
 }
 
 PetContract.prototype = {
@@ -302,6 +308,7 @@ PetContract.prototype = {
             throw new Error("双倍积分卡价格为0.01nas，请检查交易数额:" + value);
         }
         gameData.doubleScoreTimeMillis = currentTimeMillis + 1000*60*60;
+        gameData.totalPaidNas = gameData.totalPaidNas + 0.01;
         this.saveGameData(gameData);
 
         //收取手续费
@@ -311,9 +318,30 @@ PetContract.prototype = {
 
         //计算余额，分发奖金给排行榜前十用户
         var maxBanlance = new BigNumber(50000000000000000);
+
+        
         if(this.balance.gt(maxBanlance)){
         //TODO 分钱给排行榜用户 
+            var users = this.getRank().slice(0,10);
 
+            var length = users.length;
+
+            for(var i = 0;i<length;i++){
+                var address = users[i].owner;
+                if(i == 0){
+                    var nas1 = new BigNumber(120000000000000000)
+                    Blockchain.transfer(address,nas1)
+                }else if(i == 1){
+                    var nas2 = new BigNumber(80000000000000000)
+                    Blockchain.transfer(address,nas2)
+                }else if(i>=2 && i < 6){
+                    var nas3 = new BigNumber(50000000000000000)
+                    Blockchain.transfer(address,nas3)
+                }else{
+                    var nas4 = new BigNumber(25000000000000000)
+                    Blockchain.transfer(address,nas4)
+                }
+            }
         }
 
         
