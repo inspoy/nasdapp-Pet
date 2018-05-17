@@ -82,6 +82,7 @@ const refreshStatus = function () {
             $("#property-exppro").css("width", petData.exp + "%");
             $("#property-expval").text(petData.exp.toFixed(1) + "/100");
 
+            if (petData.feedValue < 0) petData.feedValue = 0;
             $("#property-feedpro").css("width", petData.feedValue + "%");
             $("#property-feedval").text(petData.feedValue.toFixed(1) + "/100");
 
