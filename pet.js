@@ -284,14 +284,18 @@ PetContract.prototype = {
         txhash = Blockchain.transaction.hash,
         value = Blockchain.transaction.value;
         var gameData = this.getGameData();
-        if(gameData.doubleScoreTimeMillis > currentTimeMillis){
-            throw new Error("你已经处于双倍积分中，无需购买！");
-        }
+        // if(gameData.doubleScoreTimeMillis > currentTimeMillis){
+        //     throw new Error("你已经处于双倍积分中，无需购买！");
+        // }
         if(value != "10000000000000000"){
             throw new Error("双倍积分卡价格为0.01nas，请检查交易数额:" + value);
         }
         gameData.doubleScoreTimeMillis = currentTimeMillis + 1000*60*60;
         this.saveGameData(gameData);
+
+        //收取手续费
+        Blockchain.transfer(ADMIN_ADDRESS,value*0.1);
+        
         return "双倍积分卡购买成功！";
     }
 }

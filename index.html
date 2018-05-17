@@ -20,13 +20,9 @@
     <div class="main">
         <div class="row">
             <h1>养鸡！</h1>
-            <div ><h5 id="user-count"></h5></div>
+            <p class="text-success">--基于星云链的宠物养成游戏</p>
+            <div><h5 id="user-count"></h5></div>
         </div>
-        <ul class="nav nav-pills" style="margin-top: 10px">
-            <li role="presentation" class="active"><a href="#">玩游戏</a></li>
-            <li role="presentation"><a href="#" >排行榜</a></li>
-            <li role="presentation"><a href="#">玩法介绍</a></li>
-        </ul>
         <hr/>
         <div id="login">
             <h3>请先登录！</h3>
@@ -42,10 +38,10 @@
         <div id="main-content" style="display: none">
             <h3>你的小鸡</h3>
             <div class="row">
-                <div class="col-sm-6">
-                    <div ><img src="./img/gen0.png" height="80%" id="image-pet"></div>
+                <div class="col-sm-4">
+                    <div><img src="./img/gen0.png" height="80%" id="image-pet"></div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div class="row property-line">
                         <div class="col-sm-5">
                             <span class="property-title">分数</span>
@@ -116,6 +112,21 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-sm-4">
+                    <h3 class="text-center">排行榜</h3>
+                    <table class="table table-striped" id="rank-table">
+                        <thead>
+                        <tr>
+                            <th class="text-center">Rank</th>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">分数</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <p class="text-center text-muted">点击下方排行榜按钮刷新排行榜数据</p>
                 </div>
             </div>
             <div class="sep"></div>

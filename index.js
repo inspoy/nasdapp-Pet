@@ -4,7 +4,7 @@ $(document).ready(function () {
     init();
 });
 
-const dappContactAddress = "n1jkCoWrqrp8eJ3aB44Ls4Qa39CZwvyfqWm";
+const dappContactAddress = "n1izn7phwEW5URLWLDYQPePGemJbU1HcAot";
 const nebulas = require("nebulas");
 const neb = new nebulas.Neb();
 neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
@@ -16,6 +16,18 @@ const sessionData = {
 
 const init = function () {
     console.log("Page Init...");
+
+    // 总人数
+    neb.api.call(
+        dappContactAddress,
+        dappContactAddress,
+        "0", "0", "100000", "200000",
+        {
+            "function": "getUserCount",
+            "args": ""
+        }).then(function (resp) {
+        $("#user-count").text("总玩家人数:" + resp.result);
+    });
 
     // 登录
     $("#login-btn").click(function () {
@@ -41,12 +53,6 @@ const init = function () {
                 }, function (err) {
                     alert("获取宠物信息失败:" + err);
                 });
-                
-                //获取总玩家人数
-                callNeb("getUserCount","",function(userCount){
-                    console.log("总玩家人数:" + userCount);
-                    $("#user-count").text("总玩家人数:" + userCount);
-                })
             }
         });
     });
@@ -73,19 +79,28 @@ const init = function () {
         });
     });
 
-    // $("#action-get-rank").click(function(){
-    //     callNeb("getRank","",function(resp){
-    //         //TODO 展示排行榜数据
-    //         console.log("排行榜数据:" + resp);
-    //     },function (err) {
-    //         alert("获取排行榜数据失败:" + err);
-    //     })
-    // });
+
     
     $("#action-get-rank").click(function(){
         callNebPay("payForDoubleScore","",function(resp){
-            //TODO 展示排行榜数据
+            //TODO 购买双倍积分卡
             console.log("购买双倍积分卡数据:" + resp);
+        })});
+
+
+    $("#action-get-rank").click(function () {
+        callNeb("getRank", "", function (resp) {
+            // 展示排行榜数据
+            resp = JSON.parse(resp);
+            $("#rank-table tbody").html("");
+            for (let i in resp) {
+                const item = resp[i];
+                const id = "n1..." + item.owner.substring(25);
+                $("#rank-table").append("<tr><td>" + (i + 1) + "</td><td>" + id + "</td><td>" + item.score + "</td></tr>");
+            }
+            console.log("排行榜数据:" + resp);
+        }, function (err) {
+            alert("获取排行榜数据失败:" + err);
         })
     });
 };
@@ -102,7 +117,7 @@ const refreshStatus = function () {
             console.log(petData);
             $("#property-score").text(petData.score);
             $("#property-gen").text("第" + petData.generation + "代");
-            $("#image-pet").attr("src","./img/gen"+petData.generation+".png");
+            $("#image-pet").attr("src", "./img/gen" + petData.generation + ".png");
             $("#property-exppro").css("width", petData.exp + "%");
             $("#property-expval").text(petData.exp.toFixed(1) + "/100");
 
@@ -117,6 +132,11 @@ const refreshStatus = function () {
             console.log(e);
         }
     });
+    //获取总玩家人数
+    callNeb("getUserCount", "", function (userCount) {
+        console.log("总玩家人数:" + userCount);
+        $("#user-count").text("总玩家人数:" + userCount);
+    })
 };
 
 const callNeb = function (func, args, callback, errCallback) {
