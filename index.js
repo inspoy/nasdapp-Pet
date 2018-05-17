@@ -4,7 +4,7 @@ $(document).ready(function () {
     init();
 });
 
-const dappContactAddress = "n1rUfcGajQvBtGWeTCuupm4JjDnpUieWyGy";
+const dappContactAddress = "n1zDJeowsuQ5BLBe5Gh1sCjpoghsFiZqwjM";
 const nebulas = require("nebulas");
 const neb = new nebulas.Neb();
 neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
@@ -41,6 +41,12 @@ const init = function () {
                 }, function (err) {
                     alert("获取宠物信息失败:" + err);
                 });
+                
+                //获取总玩家人数
+                callNeb("getUserCount","",function(userCount){
+                    console.log("总玩家人数:" + userCount);
+                    $("#user-count").text("总玩家人数:" + userCount);
+                })
             }
         });
     });
@@ -65,6 +71,15 @@ const init = function () {
             refreshStatus();
             doActionTipsAnimate($(".action-play-info"));
         });
+    });
+
+    $("#action-get-rank").click(function(){
+        callNeb("getRank","",function(resp){
+            //TODO 展示排行榜数据
+            console.log("排行榜数据:" + resp);
+        },function (err) {
+            alert("获取排行榜数据失败:" + err);
+        })
     });
 };
 
