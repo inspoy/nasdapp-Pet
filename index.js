@@ -4,7 +4,7 @@ $(document).ready(function () {
     init();
 });
 
-const dappContactAddress = "n1sxPKXCWdVudfs7FVhj7zHpmXedF2q78to";
+const dappContactAddress = "n1qUZNpW9j7KD1spRvGVVr1tSitSEm3NTFp";
 const nebulas = require("nebulas");
 const neb = new nebulas.Neb();
 neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
@@ -83,14 +83,6 @@ const init = function () {
             doActionTipsAnimate($(".action-play-info"));
         });
     });
-
-
-    
-    $("#action-get-rank").click(function(){
-        callNebPay("payForDoubleScore","",function(resp){
-            //TODO 购买双倍积分卡
-            console.log("购买双倍积分卡数据:" + resp);
-        })});
 
 
     $("#action-get-rank").click(function () {
