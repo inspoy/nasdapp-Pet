@@ -78,6 +78,7 @@ const refreshStatus = function () {
         try {
             petData = JSON.parse(petData);
             console.log(petData);
+            $("#property-score").text(petData.score);
             $("#property-gen").text("第" + petData.generation + "代");
             $("#property-exppro").css("width", petData.exp + "%");
             $("#property-expval").text(petData.exp.toFixed(1) + "/100");
