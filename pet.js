@@ -32,6 +32,8 @@ const SCORE_FEED_WITH_PET = 10;
 const SCORE_PET_GOD = 100;
 //宠物死亡的分数
 const SCORE_PET_DIE = -100;
+//手续费
+const TAX = new BigNumber(0.1);
 
 var PetContract = function(){
     //user's game data
@@ -42,6 +44,14 @@ var PetContract = function(){
     //total user count
     LocalContractStorage.defineProperty(this,"userCount");
 
+    LocalContractStorage.defineProperty(this,"balance",{
+        stringify: function(obj) {
+            return obj.toString();
+        },
+        parse: function(str) {
+            return new BigNumber(str);
+        }
+    });
 }
 
 // the game data for single player
@@ -85,6 +95,7 @@ var GameData = function(from){
 PetContract.prototype = {
     init:function(){
         this.userCount = 0;
+        this.balance = new BigNumber(0);
     },
 
     /**
@@ -294,9 +305,24 @@ PetContract.prototype = {
         this.saveGameData(gameData);
 
         //收取手续费
-        Blockchain.transfer(ADMIN_ADDRESS,value*0.1);
+        Blockchain.transfer(ADMIN_ADDRESS,value.times(TAX));
+        var one = new BigNumber(1);
+        this.balance = this.balance.plus(value.times(one.minus(TAX)));
+
+        //计算余额，分发奖金给排行榜前十用户
+        var maxBanlance = new BigNumber(50000000000000000);
+        if(this.balance.gt(maxBanlance)){
+        //TODO 分钱给排行榜用户 
+
+        }
+
         
         return "双倍积分卡购买成功！";
+    },
+
+    //获取合约余额
+    getContractBalance:function(){
+        return this.balance;
     }
 }
 
