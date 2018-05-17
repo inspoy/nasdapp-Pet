@@ -105,7 +105,7 @@ PetContract.prototype = {
             gameData.lastFeedTimeMillis = currentTimeMillis;
             gameData.lastPlayTimeMillis = currentTimeMillis;
             this.saveGameData(gameData);
-            return "pet died!";
+            return "宠物死亡！";
         }
         //更新饱食度
         gameData.feedValue = newFeedValue;
@@ -132,14 +132,14 @@ PetContract.prototype = {
         var gameData = this.getGameData();
 
         if(!gameData){
-            throw new Error("no game data found!");
+            throw new Error("没有找到游戏数据,如果首次玩耍,请等待区块确认");
         }
 
 
         var currentTimeMillis = Date.parse(new Date());
 
         if(currentTimeMillis - gameData.lastPlayTimeMillis < PLAY_INTERNAL){
-            throw new Error("cann't play with pet until " + (gameData.lastPlayTimeMillis+PLAY_INTERNAL));
+            throw new Error("玩耍间隔太短, " + (60-(currentTimeMillis-gameData.lastPlayTimeMillis)/1000))+" 秒后可再次玩耍";
         }
 
         gameData.score = gameData.score + 1;
@@ -152,7 +152,7 @@ PetContract.prototype = {
         gameData.lastPlayTimeMillis = currentTimeMillis;
 
         this.saveGameData(gameData);
-        return "your pet very happy";
+        return "由于你的陪伴，小鸡很开心";
     },
 
 
@@ -160,17 +160,17 @@ PetContract.prototype = {
         var gameData = this.getGameData();
 
         if(!gameData){
-            throw new Error("no game data found!");
+            throw new Error("没有找到游戏数据,如果首次玩耍,请等待区块确认");
         }
 
         var currentTimeMillis = Date.parse(new Date());
 
-        if(gameData.feedCount >MAX_FEED_TIMES){
-            throw new Error("already feed "+MAX_FEED_TIMES+" times!");
-        }
+        // if(gameData.feedCount >MAX_FEED_TIMES){
+        //     throw new Error("already feed "+MAX_FEED_TIMES+" times!");
+        // }
 
-        if(currentTimeMillis - gameData.lastFeedTimeMillis < PLAY_INTERNAL){
-            throw new Error("cann't feed the pet until " + (gameData.lastFeedTimeMillis+PLAY_INTERNAL));
+        if(currentTimeMillis - gameData.lastFeedTimeMillis < FEED_INTERNAL){
+            throw new Error("喂食间隔太短, " + (60-(currentTimeMillis-gameData.lastFeedTimeMillis)/1000))+" 秒后可再次喂食";
         }
 
         gameData.lastFeedTimeMillis = currentTimeMillis;
@@ -206,7 +206,7 @@ PetContract.prototype = {
             gameData.score = gameData.score + 10;
         }
         this.saveGameData(gameData);
-        return "feed success!";
+        return "喂食成功!";
 
     },
 
