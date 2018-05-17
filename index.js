@@ -17,6 +17,11 @@ const sessionData = {
 const init = function () {
     console.log("Page Init...");
 
+    // 可见性
+    $("#span-buycard").hide();
+    $("#span-checkcard").hide();
+    $("#main-content").hide();
+
     // 总人数
     neb.api.call(
         dappContactAddress,

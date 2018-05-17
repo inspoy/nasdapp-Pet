@@ -35,7 +35,7 @@
                     href="https://github.com/ChengOrangeJu/WebExtensionWallet">Chrome钱包插件</a>才能正常使用本产品（已安装请忽略）</p>
             <button class="btn btn-success" id="login-btn">登录</button>
         </div>
-        <div id="main-content" style="display: none">
+        <div id="main-content">
             <h3>你的小鸡</h3>
             <div class="row">
                 <div class="col-sm-4">
@@ -48,6 +48,58 @@
                         </div>
                         <div class="col-sm-7">
                             <span class="property-content" id="property-score">0</span>
+                            <!-- 买卡 -->
+                            <span id="span-buycard">
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                    data-target="#buyCard">双倍经验卡</button>
+                            <div class="modal fade" id="buyCard" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                                    aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title">购买双倍积分卡</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>双倍积分卡可以使小鸡的积分成长速度翻倍</p>
+                                            <p>0.01nas购买1天</p>
+                                            <p>作者收取10%费用，剩下的归系统，系统每满1nas，则向排行榜前十名用户分发这1个nas，并且排行数据清理</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">关闭</button>
+                                            <button type="button" class="btn btn-primary">购买</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </span>
+                            <!-- 查看 -->
+                            <span id="span-checkcard">
+                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                                    data-target="#checkcard">双倍经验卡</button>
+                            <div class="modal fade" id="checkcard" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                                    aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title">双倍积分卡生效中</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>双倍积分卡可以使小鸡的积分成长速度翻倍</p>
+                                            <p>你的双倍积分卡有效期还有<span>233</span>分钟</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">关闭</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </span>
                         </div>
                     </div>
                     <div class="row property-line">
@@ -151,7 +203,7 @@
                 </div>
             </div>
             <div class="sep"></div>
-            <p class="bg-info" style="padding: 10px;">* 投食/玩耍 操作交易成功后有延时，请耐心等待状态刷新</p>
+            <p class="bg-info" style="padding: 10px;">* 区块链交易成功后有延迟，请耐心等待状态自动刷新</p>
         </div>
     </div>
 </div>
