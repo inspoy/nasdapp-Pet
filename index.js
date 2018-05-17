@@ -95,6 +95,7 @@ const refreshStatus = function () {
             console.log(petData);
             $("#property-score").text(petData.score);
             $("#property-gen").text("第" + petData.generation + "代");
+            $("#image-pet").attr("src","./img/gen"+petData.generation+".png");
             $("#property-exppro").css("width", petData.exp + "%");
             $("#property-expval").text(petData.exp.toFixed(1) + "/100");
 
