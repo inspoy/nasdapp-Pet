@@ -1,4 +1,6 @@
 'use strict'
+
+const ADMIN_ADDRESS = "n1ZHFTqNWaGxPnbQ6iyiWb3PxWBTGanGCkM";
 //玩耍的间隔
 const PLAY_INTERNAL = 1 * 60 * 1000 ;
 //喂食的间隔
@@ -17,6 +19,19 @@ const MOOD_GROWTH = 1.3;
 const FEED_VALUE_DOWN_SPEED = 60 * 1000 * 10;
 //成神所需要的经验值
 const MAX_EXP = 100;
+//双倍经验卡价格
+const DOUBLE_SCORE_PRICE = 0.01;
+
+
+//与宠物玩耍得分
+const SCORE_PLAY_WITH_PET = 10;
+//喂养宠物得分
+const SCORE_FEED_WITH_PET = 10;
+
+//宠物成神得分
+const SCORE_PET_GOD = 100;
+//宠物死亡的分数
+const SCORE_PET_DIE = -100;
 
 var PetContract = function(){
     //user's game data
@@ -62,6 +77,9 @@ var GameData = function(from){
 
     //总分数， 每喂食一次加一分，玩耍一次加一分，成神一只加十分，小鸡死亡减十分
     this.score = 0;
+
+    //双倍积分卡截止时间
+    this.doubleScoreTimeMillis = currentTimeMillis;
 }
 
 PetContract.prototype = {
@@ -104,7 +122,7 @@ PetContract.prototype = {
             gameData.feedValue = 0;
             gameData.mood = 0.1;
             gameData.diedCount = gameData.diedCount + 1;
-            gameData.score = gameData.score - 10;
+            gameData.score = gameData.score + SCORE_PET_DIE;
             gameData.lastFeedTimeMillis = currentTimeMillis;
             gameData.lastPlayTimeMillis = currentTimeMillis;
             this.saveGameData(gameData);
@@ -145,7 +163,13 @@ PetContract.prototype = {
             throw new Error("玩耍间隔太短, " + (60-(currentTimeMillis-gameData.lastPlayTimeMillis)/1000))+" 秒后可再次玩耍";
         }
 
-        gameData.score = gameData.score + 1;
+        //如果处于双倍积分卡时间内
+        if(gameData.doubleScoreTimeMillis > currentTimeMillis){
+            gameData.score = gameData.score + SCORE_PLAY_WITH_PET*2;
+        }else{
+            gameData.score = gameData.score + SCORE_PLAY_WITH_PET;
+        }
+        
         gameData.mood = gameData.mood * MOOD_GROWTH;
 
         //心情值最大为1
@@ -179,8 +203,11 @@ PetContract.prototype = {
         gameData.lastFeedTimeMillis = currentTimeMillis;
 
         //喂食成功加一分
-        gameData.score = gameData.score + 1;
-
+        if(gameData.doubleScoreTimeMillis > currentTimeMillis){
+            gameData.score = gameData.score + SCORE_FEED_WITH_PET*2;
+        }else{
+            gameData.score = gameData.score + SCORE_FEED_WITH_PET;
+        }
         //如果饱食度为透支状态，则在下一次喂食的时候，直接回复为0，以获得正确的饱食度
         if(gameData.feedValue < 0){
             gameData.feedValue = 0;
@@ -206,7 +233,11 @@ PetContract.prototype = {
             gameData.mood = 0.1;
             gameData.feedValue = 0;
             //成神加十分
-            gameData.score = gameData.score + 10;
+            if(gameData.doubleScoreTimeMillis > currentTimeMillis){
+                gameData.score = gameData.score + SCORE_PET_GOD * 2;
+            }else{
+                gameData.score = gameData.score + SCORE_PET_GOD;
+            }
         }
         this.saveGameData(gameData);
         return "喂食成功!";
@@ -242,6 +273,26 @@ PetContract.prototype = {
         }
         return userDatas.sort(function (a,b){return a.score<b.score}).slice(0,500);
 
+    },
+
+    payForDoubleScore:function(){
+        
+        var currentTimeMillis = Date.parse(new Date());
+
+        var fromUser = Blockchain.transaction.from,
+        ts = Blockchain.transaction.timestamp,
+        txhash = Blockchain.transaction.hash,
+        value = Blockchain.transaction.value;
+        var gameData = this.getGameData();
+        if(gameData.doubleScoreTimeMillis > currentTimeMillis){
+            throw new Error("你已经处于双倍积分中，无需购买！");
+        }
+        if(value != "10000000000000000"){
+            throw new Error("双倍积分卡价格为0.01nas，请检查交易数额:" + value);
+        }
+        gameData.doubleScoreTimeMillis = currentTimeMillis + 1000*60*60;
+        this.saveGameData(gameData);
+        return "双倍积分卡购买成功！";
     }
 }
 

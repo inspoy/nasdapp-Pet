@@ -4,7 +4,7 @@ $(document).ready(function () {
     init();
 });
 
-const dappContactAddress = "n1zDJeowsuQ5BLBe5Gh1sCjpoghsFiZqwjM";
+const dappContactAddress = "n1jkCoWrqrp8eJ3aB44Ls4Qa39CZwvyfqWm";
 const nebulas = require("nebulas");
 const neb = new nebulas.Neb();
 neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
@@ -73,12 +73,19 @@ const init = function () {
         });
     });
 
+    // $("#action-get-rank").click(function(){
+    //     callNeb("getRank","",function(resp){
+    //         //TODO 展示排行榜数据
+    //         console.log("排行榜数据:" + resp);
+    //     },function (err) {
+    //         alert("获取排行榜数据失败:" + err);
+    //     })
+    // });
+    
     $("#action-get-rank").click(function(){
-        callNeb("getRank","",function(resp){
+        callNebPay("payForDoubleScore","",function(resp){
             //TODO 展示排行榜数据
-            console.log("排行榜数据:" + resp);
-        },function (err) {
-            alert("获取排行榜数据失败:" + err);
+            console.log("购买双倍积分卡数据:" + resp);
         })
     });
 };
