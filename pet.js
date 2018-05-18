@@ -272,6 +272,10 @@ PetContract.prototype = {
         this.gameDatas.put(userAddress,data);
     },
 
+    saveGameDataByAddress:function(address,data){
+        this.gameDatas.put(address,data);
+    },
+
     getUserCount :function(){
         return this.userCount;
     },
@@ -329,18 +333,45 @@ PetContract.prototype = {
             for(var i = 0;i<length;i++){
                 var address = users[i].owner;
                 if(i == 0){
-                    var nas1 = new BigNumber(120000000000000000)
-                    Blockchain.transfer(address,nas1)
+                    var nas1 = new BigNumber(120000000000000000);
+                    Blockchain.transfer(address,nas1);
+                    var gameData1 = this.getGameData(address);
+                    gameData1.totalRewardNas = gameData1.totalRewardNas + 0.12;
+                    this.saveGameDataByAddress(address,gameData1);
                 }else if(i == 1){
-                    var nas2 = new BigNumber(80000000000000000)
-                    Blockchain.transfer(address,nas2)
+                    var nas2 = new BigNumber(80000000000000000);
+                    Blockchain.transfer(address,nas2);
+                    var gameData2 = this.getGameData(address);
+                    gameData2.totalRewardNas = gameData1.totalRewardNas + 0.08;
+                    this.saveGameDataByAddress(address,gameData2);
                 }else if(i>=2 && i < 6){
-                    var nas3 = new BigNumber(50000000000000000)
-                    Blockchain.transfer(address,nas3)
+                    var nas3 = new BigNumber(50000000000000000);
+                    Blockchain.transfer(address,nas3);
+                    var gameData3 = this.getGameData(address);
+                    gameData3.totalRewardNas = gameData3.totalRewardNas + 0.05;
+                    this.saveGameDataByAddress(address,gameData3);
                 }else{
-                    var nas4 = new BigNumber(25000000000000000)
-                    Blockchain.transfer(address,nas4)
+                    var nas4 = new BigNumber(25000000000000000);
+                    Blockchain.transfer(address,nas4);
+                    var gameData4 = this.getGameData(address);
+                    gameData4.totalRewardNas = gameData4.totalRewardNas + 0.025;
+                    this.saveGameDataByAddress(address,gameData4);
                 }
+            }
+
+            var currentTimeMillis = Date.parse(new Date());
+            //清空用户积分
+            for(var i = 0;i<this.userCount;i++){
+                var address = this.gameDataIndex.get(i);
+                var data = this.gameDatas.get(address);
+                data.score = 0;
+                data.doubleScoreTimeMillis = currentTimeMillis;
+                data.lastFeedTimeMillis = currentTimeMillis;
+                data.lastPlayTimeMillis = currentTimeMillis;
+                data.exp = 0;
+                data.mood = 0.1;
+                data.feedValue = 0;
+                this.gameDatas.saveGameDataByAddress(address,data);
             }
         }
 
