@@ -4,7 +4,7 @@ $(document).ready(function () {
     init();
 });
 
-const dappContactAddress = "n1qUZNpW9j7KD1spRvGVVr1tSitSEm3NTFp";
+const dappContactAddress = "n1iK34UtVDtgkCNEr42UW3ksX5PrSWv1we5";
 const nebulas = require("nebulas");
 const neb = new nebulas.Neb();
 neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
