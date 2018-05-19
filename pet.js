@@ -181,7 +181,7 @@ PetContract.prototype = {
         var currentTimeMillis = Date.parse(new Date());
 
         if (currentTimeMillis - gameData.lastPlayTimeMillis < PLAY_INTERNAL) {
-            throw new Error("玩耍间隔太短, " + (60 - (currentTimeMillis - gameData.lastPlayTimeMillis) / 1000)) + " 秒后可再次玩耍";
+            throw new Error("玩耍间隔太短, " + (PLAY_INTERNAL - (currentTimeMillis - gameData.lastPlayTimeMillis) / 1000)) + " 秒后可再次玩耍";
         }
 
         //如果处于双倍积分卡时间内
@@ -218,7 +218,7 @@ PetContract.prototype = {
         // }
 
         if (currentTimeMillis - gameData.lastFeedTimeMillis < FEED_INTERNAL) {
-            throw new Error("喂食间隔太短, " + (60 - (currentTimeMillis - gameData.lastFeedTimeMillis) / 1000)) + " 秒后可再次喂食";
+            throw new Error("喂食间隔太短, " + (FEED_INTERNAL - (currentTimeMillis - gameData.lastFeedTimeMillis) / 1000)) + " 秒后可再次喂食";
         }
 
         gameData.lastFeedTimeMillis = currentTimeMillis;
