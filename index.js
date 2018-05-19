@@ -97,7 +97,7 @@ const init = function () {
                 return;
             }
             refreshStatus();
-        });
+        }, "0.01");
     };
     $("#btn-buycard").click(buyCard);
     $("#btn-checkcard").click(buyCard);
@@ -162,7 +162,7 @@ const refreshStatus = function () {
     callNeb("getContractBalance","",function(balance){
         balance = balance.replace("\"","").replace("\"","");
         $("#text-balance").text("奖池余额：" + parseInt(balance)/1000000000000000000 + "NAS");
-    })
+    });
     getRank();
 };
 
@@ -196,8 +196,9 @@ const callNeb = function (func, args, callback, errCallback) {
     }).catch(errCallback);
 };
 
-const callNebPay = function (func, args, callback) {
-    nebPay.call(dappContactAddress, "0", func, args, {
+const callNebPay = function (func, args, callback, value) {
+    if (!value) value = "0";
+    nebPay.call(dappContactAddress, value, func, args, {
         listener: callback
     });
 };

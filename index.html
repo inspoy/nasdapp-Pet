@@ -6,7 +6,7 @@
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    
+
     <!--neb-->
     <script src="./dist/nebulas.js"></script>
     <script src="./dist/nebPay.js"></script>
@@ -96,7 +96,8 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default"
                                                     data-dismiss="modal">关闭</button>
-                                            <button type="button" class="btn btn-primary" id="btn-checkcard">购买更多 </button>
+                                            <button type="button" class="btn btn-primary"
+                                                    id="btn-checkcard">购买更多 </button>
                                         </div>
                                     </div>
                                 </div>
@@ -205,14 +206,35 @@
                 </div>
             </div>
             <div class="sep"></div>
-            <p class="bg-info" style="padding: 10px;">* 区块链交易成功后有延迟，请耐心等待状态自动刷新。</p>
-            <p class="bg-info" style="padding: 10px;">* 心情影响每次经验值增加数量,经验值满会成神。</p>
-            <p class="bg-info" style="padding: 10px;">* 喂食+10分，玩耍+10分，成神+100分，宠物死亡-100分。</p>
-            <p class="bg-info" style="padding: 10px;">* 饱食度每分钟会下降一点，如果饱食度小于-100，则宠物死亡。</p>
-            <p class="bg-info" style="padding: 10px;">* 双倍积分卡生效中每次行为会获得双倍分数，包括成神不包括死亡。</p>
-            <p class="bg-info" style="padding: 10px;">* 当系统存满0.5NAS的时候，会将奖励分发给排行榜前十名。排名越高，奖励越高。</p>
-            <p class="bg-info" style="padding: 10px;">* 作者会收取购买积分卡10%作为手续费。</p>
-
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                    data-target="#introduction">玩法介绍
+            </button>
+            <div class="modal fade" id="introduction" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">玩法介绍</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>区块链交易成功后有延迟，请耐心等待状态自动刷新。</p>
+                            <p>心情影响每次经验值增加数量,经验值满会成神。</p>
+                            <p>喂食+10分，玩耍+10分，成神+100分，宠物死亡-100分。</p>
+                            <p>饱食度每分钟会下降一点，如果饱食度小于-100，则宠物死亡。</p>
+                            <p>双倍积分卡生效中每次行为会获得双倍分数，包括成神不包括死亡。</p>
+                            <p>当系统存满0.5NAS的时候，会将奖励分发给排行榜前十名。排名越高，奖励越高。</p>
+                            <p>作者会收取购买积分卡10%作为手续费。</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">关闭
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
