@@ -84,13 +84,13 @@ const init = function () {
         });
     });
 
-
+    // 排行榜
     $("#action-get-rank").click(function () {
         callNeb("getRank", "", function (resp) {
             // 展示排行榜数据
             resp = JSON.parse(resp);
             $("#rank-table tbody").html("");
-            for (let i in resp) {
+            for (let i = 0; i < resp.length; ++i) {
                 const item = resp[i];
                 const id = "n1..." + item.owner.substring(25);
                 $("#rank-table").append("<tr><td>" + (i + 1) + "</td><td>" + id + "</td><td>" + item.score + "</td></tr>");
@@ -100,6 +100,19 @@ const init = function () {
             alert("获取排行榜数据失败:" + err);
         })
     });
+
+    // 购买双倍积分卡
+    const buyCard = function () {
+        callNebPay("payForDoubleScore", "", function (resp) {
+            if (typeof resp === "string" && resp.startsWith("Error")) {
+                alert("购买失败:" + resp);
+                return;
+            }
+            refreshStatus();
+        });
+    };
+    $("#btn-buycard").click(buyCard);
+    $("#btn-checkcard").click(buyCard);
 };
 
 const doActionTipsAnimate = function (ele) {
@@ -124,6 +137,19 @@ const refreshStatus = function () {
 
             $("#property-moodpro").css("width", petData.mood * 100 + "%");
             $("#property-moodval").text(petData.mood.toFixed(2) + "/1");
+
+            const curTime = Date.parse(new Date());
+            if (petData.doubleScoreTimeMillis > curTime) {
+                // 有双倍积分卡
+                $("#span-buycard").hide();
+                $("#span-checkcard").show();
+                $("#doublecardtime").text(((petData.doubleScoreTimeMillis - curTime) / 1000 / 60).toFixed(0));
+            }
+            else {
+                // 没有双倍积分卡
+                $("#span-buycard").show();
+                $("#span-checkcard").hide();
+            }
         }
         catch (e) {
             console.log(e);
