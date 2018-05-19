@@ -2,9 +2,9 @@
 
 const ADMIN_ADDRESS = "n1ZHFTqNWaGxPnbQ6iyiWb3PxWBTGanGCkM";
 //玩耍的间隔
-const PLAY_INTERNAL = 1 * 60 * 1000 ;
+const PLAY_INTERNAL = 0.5 * 60 * 1000;
 //喂食的间隔
-const FEED_INTERNAL = 1 * 60 * 1000 ;
+const FEED_INTERNAL = 0.5 * 60 * 1000;
 //最大喂养次数
 const MAX_FEED_TIMES = 10;
 //饱食度最大值
@@ -35,32 +35,32 @@ const SCORE_PET_DIE = -100;
 //手续费
 const TAX = new BigNumber(0.1);
 
-var PetContract = function(){
+var PetContract = function () {
     //user's game data
-    LocalContractStorage.defineMapProperty(this,"gameDatas");
+    LocalContractStorage.defineMapProperty(this, "gameDatas");
 
-    LocalContractStorage.defineMapProperty(this,"gameDataIndex");
-    
+    LocalContractStorage.defineMapProperty(this, "gameDataIndex");
+
     //total user count
-    LocalContractStorage.defineProperty(this,"userCount");
+    LocalContractStorage.defineProperty(this, "userCount");
 
-    LocalContractStorage.defineProperty(this,"balance",{
-        stringify: function(obj) {
+    LocalContractStorage.defineProperty(this, "balance", {
+        stringify: function (obj) {
             return obj.toString();
         },
-        parse: function(str) {
+        parse: function (str) {
             return new BigNumber(str);
         }
     });
 }
 
 // the game data for single player
-var GameData = function(from){
+var GameData = function (from) {
 
     var zero = new Date();
-        zero.setHours(0);
-        zero.setMinutes(0);
-        zero.setSeconds(0);
+    zero.setHours(0);
+    zero.setMinutes(0);
+    zero.setSeconds(0);
     var todayZeroTimeMillis = zero.getTime();
 
     var currentTimeMillis = Date.parse(new Date());
@@ -79,7 +79,7 @@ var GameData = function(from){
     this.mood = 0.1;
     //last play time
     this.lastPlayTimeMillis = currentTimeMillis;
-    
+
     this.generation = 0;
 
     //死亡宠物数量
@@ -99,7 +99,7 @@ var GameData = function(from){
 }
 
 PetContract.prototype = {
-    init:function(){
+    init: function () {
         this.userCount = 0;
         this.balance = new BigNumber(0);
     },
@@ -107,15 +107,15 @@ PetContract.prototype = {
     /**
      * get a pet if already have data or create.
      */
-    getPetInfo:function(){
-        
+    getPetInfo: function () {
+
         var userAddress = Blockchain.transaction.from;
 
         var gameData = this.getGameData();
-        
-        if(!gameData){
+
+        if (!gameData) {
             gameData = new GameData(userAddress);
-            this.gameDataIndex.put(this.userCount,userAddress);
+            this.gameDataIndex.put(this.userCount, userAddress);
             this.userCount = this.userCount + 1;
         }
 
@@ -129,12 +129,12 @@ PetContract.prototype = {
         var currentTimeMillis = Date.parse(new Date());
 
         //上次喂养时间距离现在喂养时间降低的饱食度  每分钟降低一点。
-        var feedDValue = (currentTimeMillis -  gameData.lastFeedTimeMillis) / FEED_VALUE_DOWN_SPEED;
-        
+        var feedDValue = (currentTimeMillis - gameData.lastFeedTimeMillis) / FEED_VALUE_DOWN_SPEED;
+
         var newFeedValue = gameData.feedValue - feedDValue;
-        
+
         //饱食度透支100则，则小鸡死亡
-        if(newFeedValue < -100){
+        if (newFeedValue < -100) {
             gameData.exp = 0;
             gameData.feedValue = 0;
             gameData.mood = 0.1;
@@ -151,46 +151,46 @@ PetContract.prototype = {
         //每天0点更新状态：
 
         //喂养次数清零
-        if(gameData.lastFeedTimeMillis < todayZeroTimeMillis){
+        if (gameData.lastFeedTimeMillis < todayZeroTimeMillis) {
             gameData.feedCount = 0;
         }
 
         //心情清零
-        if(gameData.lastPlayTimeMillis < todayZeroTimeMillis){
+        if (gameData.lastPlayTimeMillis < todayZeroTimeMillis) {
             gameData.mood = 0.1;
         }
-        
+
         this.saveGameData(gameData);
         return gameData;
 
     },
 
 
-    playWithPet:function(){
+    playWithPet: function () {
         var gameData = this.getGameData();
 
-        if(!gameData){
+        if (!gameData) {
             throw new Error("没有找到游戏数据,如果首次玩耍,请等待区块确认");
         }
 
 
         var currentTimeMillis = Date.parse(new Date());
 
-        if(currentTimeMillis - gameData.lastPlayTimeMillis < PLAY_INTERNAL){
-            throw new Error("玩耍间隔太短, " + (60-(currentTimeMillis-gameData.lastPlayTimeMillis)/1000))+" 秒后可再次玩耍";
+        if (currentTimeMillis - gameData.lastPlayTimeMillis < PLAY_INTERNAL) {
+            throw new Error("玩耍间隔太短, " + (60 - (currentTimeMillis - gameData.lastPlayTimeMillis) / 1000)) + " 秒后可再次玩耍";
         }
 
         //如果处于双倍积分卡时间内
-        if(gameData.doubleScoreTimeMillis > currentTimeMillis){
-            gameData.score = gameData.score + SCORE_PLAY_WITH_PET*2;
-        }else{
+        if (gameData.doubleScoreTimeMillis > currentTimeMillis) {
+            gameData.score = gameData.score + SCORE_PLAY_WITH_PET * 2;
+        } else {
             gameData.score = gameData.score + SCORE_PLAY_WITH_PET;
         }
-        
+
         gameData.mood = gameData.mood * MOOD_GROWTH;
 
         //心情值最大为1
-        if(gameData.mood > 1){
+        if (gameData.mood > 1) {
             gameData.mood = 1;
         }
         gameData.lastPlayTimeMillis = currentTimeMillis;
@@ -200,10 +200,10 @@ PetContract.prototype = {
     },
 
 
-    feedPet:function(){
+    feedPet: function () {
         var gameData = this.getGameData();
 
-        if(!gameData){
+        if (!gameData) {
             throw new Error("没有找到游戏数据,如果首次玩耍,请等待区块确认");
         }
 
@@ -213,25 +213,25 @@ PetContract.prototype = {
         //     throw new Error("already feed "+MAX_FEED_TIMES+" times!");
         // }
 
-        if(currentTimeMillis - gameData.lastFeedTimeMillis < FEED_INTERNAL){
-            throw new Error("喂食间隔太短, " + (60-(currentTimeMillis-gameData.lastFeedTimeMillis)/1000))+" 秒后可再次喂食";
+        if (currentTimeMillis - gameData.lastFeedTimeMillis < FEED_INTERNAL) {
+            throw new Error("喂食间隔太短, " + (60 - (currentTimeMillis - gameData.lastFeedTimeMillis) / 1000)) + " 秒后可再次喂食";
         }
 
         gameData.lastFeedTimeMillis = currentTimeMillis;
 
         //喂食成功加一分
-        if(gameData.doubleScoreTimeMillis > currentTimeMillis){
-            gameData.score = gameData.score + SCORE_FEED_WITH_PET*2;
-        }else{
+        if (gameData.doubleScoreTimeMillis > currentTimeMillis) {
+            gameData.score = gameData.score + SCORE_FEED_WITH_PET * 2;
+        } else {
             gameData.score = gameData.score + SCORE_FEED_WITH_PET;
         }
         //如果饱食度为透支状态，则在下一次喂食的时候，直接回复为0，以获得正确的饱食度
-        if(gameData.feedValue < 0){
+        if (gameData.feedValue < 0) {
             gameData.feedValue = 0;
         }
 
         //如果饱食度超出上限，则变为最大值
-        if(gameData.feedValue > MAX_FEED_VALUE){
+        if (gameData.feedValue > MAX_FEED_VALUE) {
             gameData.feedDValue = MAX_FEED_VALUE;
         }
 
@@ -243,16 +243,16 @@ PetContract.prototype = {
         gameData.exp = gameData.exp + FEED_EXP * gameData.mood;
 
         //宠物成神，自动繁殖下一代宠物。
-        if(gameData.exp > MAX_EXP){
+        if (gameData.exp > MAX_EXP) {
             gameData.generation = gameData.generation + 1;
             gameData.exp = 0;
             gameData.feedCount = 0;
             gameData.mood = 0.1;
             gameData.feedValue = 0;
             //成神加十分
-            if(gameData.doubleScoreTimeMillis > currentTimeMillis){
+            if (gameData.doubleScoreTimeMillis > currentTimeMillis) {
                 gameData.score = gameData.score + SCORE_PET_GOD * 2;
-            }else{
+            } else {
                 gameData.score = gameData.score + SCORE_PET_GOD;
             }
         }
@@ -261,107 +261,111 @@ PetContract.prototype = {
 
     },
 
-    getGameData : function(){
+    getGameData: function () {
         var userAddress = Blockchain.transaction.from;
         var gameData = this.gameDatas.get(userAddress);
         return gameData;
     },
 
-    saveGameData : function(data){
+    saveGameData: function (data) {
         var userAddress = Blockchain.transaction.from;
-        this.gameDatas.put(userAddress,data);
+        this.gameDatas.put(userAddress, data);
     },
 
-    saveGameDataByAddress:function(address,data){
-        this.gameDatas.put(address,data);
+    saveGameDataByAddress: function (address, data) {
+        this.gameDatas.put(address, data);
     },
 
-    getUserCount :function(){
+    getUserCount: function () {
         return this.userCount;
     },
 
-    getRank:function(){
+    getRank: function () {
         var userDatas = new Array();
-        for(var i = 0;i<this.userCount;i++){
+        for (var i = 0; i < this.userCount; i++) {
             var address = this.gameDataIndex.get(i);
             var data = this.gameDatas.get(address);
             userDatas.push({
-                score:data.score,
-                generation:data.generation,
-                diedCount:data.diedCount,
-                owner:data.owner
+                score: data.score,
+                generation: data.generation,
+                diedCount: data.diedCount,
+                owner: data.owner
             });
         }
-        return userDatas.sort(function (a,b){return a.score<b.score}).slice(0,500);
+        return userDatas.sort(function (a, b) { return a.score < b.score }).slice(0, 500);
 
     },
 
-    payForDoubleScore:function(){
-        
+    payForDoubleScore: function () {
+
         var currentTimeMillis = Date.parse(new Date());
 
         var fromUser = Blockchain.transaction.from,
-        ts = Blockchain.transaction.timestamp,
-        txhash = Blockchain.transaction.hash,
-        value = Blockchain.transaction.value;
+            ts = Blockchain.transaction.timestamp,
+            txhash = Blockchain.transaction.hash,
+            value = Blockchain.transaction.value;
         var gameData = this.getGameData();
         // if(gameData.doubleScoreTimeMillis > currentTimeMillis){
         //     throw new Error("你已经处于双倍积分中，无需购买！");
         // }
-        if(value != "10000000000000000"){
+        if (value != "10000000000000000") {
             throw new Error("双倍积分卡价格为0.01nas，请检查交易数额:" + value);
         }
-        gameData.doubleScoreTimeMillis = currentTimeMillis + 1000*60*60;
+        if (gameData.doubleScoreTimeMillis < currentTimeMillis) {
+            gameData.doubleScoreTimeMillis = currentTimeMillis + 1000 * 60 * 60;
+        } else {
+            gameData.doubleScoreTimeMillis = gameData.doubleScoreTimeMillis + 1000 * 60 * 60;
+        }
+
         gameData.totalPaidNas = gameData.totalPaidNas + 0.01;
         this.saveGameData(gameData);
 
         //收取手续费
-        Blockchain.transfer(ADMIN_ADDRESS,value.times(TAX));
+        Blockchain.transfer(ADMIN_ADDRESS, value.times(TAX));
         var one = new BigNumber(1);
         this.balance = this.balance.plus(value.times(one.minus(TAX)));
 
         //计算余额，分发奖金给排行榜前十用户
-        var maxBanlance = new BigNumber(50000000000000000);
+        var maxBanlance = new BigNumber(500000000000000000);
 
-        
-        if(this.balance.gt(maxBanlance)){
-        //TODO 分钱给排行榜用户 
-            var users = this.getRank().slice(0,10);
+        if (this.balance.gt(maxBanlance)) {
+            //TODO 分钱给排行榜用户 
+            var users = this.getRank().slice(0, 10);
 
             var length = users.length;
 
-            for(var i = 0;i<length;i++){
+            for (var i = 0; i < length; i++) {
                 var address = users[i].owner;
-                if(i == 0){
+                if (i == 0) {
                     var nas1 = new BigNumber(120000000000000000);
-                    Blockchain.transfer(address,nas1);
+                    Blockchain.transfer(address, nas1);
                     var gameData1 = this.getGameData(address);
                     gameData1.totalRewardNas = gameData1.totalRewardNas + 0.12;
-                    this.saveGameDataByAddress(address,gameData1);
-                }else if(i == 1){
+                    this.saveGameDataByAddress(address, gameData1);
+                } else if (i == 1) {
                     var nas2 = new BigNumber(80000000000000000);
-                    Blockchain.transfer(address,nas2);
+                    Blockchain.transfer(address, nas2);
                     var gameData2 = this.getGameData(address);
                     gameData2.totalRewardNas = gameData1.totalRewardNas + 0.08;
-                    this.saveGameDataByAddress(address,gameData2);
-                }else if(i>=2 && i < 6){
+                    this.saveGameDataByAddress(address, gameData2);
+                } else if (i >= 2 && i < 6) {
                     var nas3 = new BigNumber(50000000000000000);
-                    Blockchain.transfer(address,nas3);
+                    Blockchain.transfer(address, nas3);
                     var gameData3 = this.getGameData(address);
                     gameData3.totalRewardNas = gameData3.totalRewardNas + 0.05;
-                    this.saveGameDataByAddress(address,gameData3);
-                }else{
+                    this.saveGameDataByAddress(address, gameData3);
+                } else {
                     var nas4 = new BigNumber(25000000000000000);
-                    Blockchain.transfer(address,nas4);
+                    Blockchain.transfer(address, nas4);
                     var gameData4 = this.getGameData(address);
                     gameData4.totalRewardNas = gameData4.totalRewardNas + 0.025;
-                    this.saveGameDataByAddress(address,gameData4);
+                    this.saveGameDataByAddress(address, gameData4);
                 }
             }
 
             var currentTimeMillis = Date.parse(new Date());
             //清空用户积分
-            for(var i = 0;i<this.userCount;i++){
+            for (var i = 0; i < this.userCount; i++) {
                 var address = this.gameDataIndex.get(i);
                 var data = this.gameDatas.get(address);
                 data.score = 0;
@@ -371,16 +375,16 @@ PetContract.prototype = {
                 data.exp = 0;
                 data.mood = 0.1;
                 data.feedValue = 0;
-                this.gameDatas.saveGameDataByAddress(address,data);
+                this.saveGameDataByAddress(address, data);
             }
         }
 
-        
+
         return "双倍积分卡购买成功！";
     },
 
     //获取合约余额
-    getContractBalance:function(){
+    getContractBalance: function () {
         return this.balance;
     }
 }

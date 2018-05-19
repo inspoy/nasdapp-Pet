@@ -36,8 +36,11 @@
             <button class="btn btn-success" id="login-btn">登录</button>
         </div>
         <div id="main-content">
-            <h3>你的小鸡</h3>
-            <div id="text-balance"><h5>奖池余额：</h5></div>
+            <h3><div id="text-balance">奖池余额：</div></h3>
+            <p><font color="red">当奖池金额满0.5NAS的时候，排行榜前十名会分得这0.5NAS。</font></p>
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+            data-target="#introduction">玩法介绍
+            </button>
             <div class="row">
                 <div class="col-sm-4">
                     <div><img src="./img/gen0.png" height="80%" id="image-pet"></div>
@@ -206,9 +209,7 @@
                 </div>
             </div>
             <div class="sep"></div>
-            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                    data-target="#introduction">玩法介绍
-            </button>
+          
             <div class="modal fade" id="introduction" tabindex="-1" role="dialog"
                  aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
@@ -224,7 +225,7 @@
                             <p>喂食+10分，玩耍+10分，成神+100分，宠物死亡-100分。</p>
                             <p>饱食度每分钟会下降一点，如果饱食度小于-100，则宠物死亡。</p>
                             <p>双倍积分卡生效中每次行为会获得双倍分数，包括成神不包括死亡。</p>
-                            <p>当系统存满0.5NAS的时候，会将奖励分发给排行榜前十名。排名越高，奖励越高。</p>
+                            <p>当系统存满0.5NAS的时候，会将奖励分发给排行榜前十名。第一名获得0.12NAS,第二名获得0.08NAS,三到六名获得0.05NAS,七到十名获得0.025NAS。</p>
                             <p>作者会收取购买积分卡10%作为手续费。</p>
                         </div>
                         <div class="modal-footer">
