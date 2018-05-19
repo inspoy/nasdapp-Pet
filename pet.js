@@ -77,11 +77,11 @@ var GameData = function (from) {
     //饱食度
     this.feedValue = 0;
     //last feed time
-    this.lastFeedTimeMillis = currentTimeMillis;
+    this.lastFeedTimeMillis = currentTimeMillis - FEED_INTERNAL;
     //this is a value between 0 and 1
     this.mood = 0.1;
     //last play time
-    this.lastPlayTimeMillis = currentTimeMillis;
+    this.lastPlayTimeMillis = currentTimeMillis - PLAY_INTERNAL;
 
     this.generation = 0;
 
