@@ -150,8 +150,8 @@ const refreshStatus = function () {
     })
 
     callNeb("getContractBalance","",function(balance){
-        console.log("奖池剩余金额" + parseInt("18000000000000000")/1000000000000000000 + "NAS");
-        $("#text-balance").text("奖池余额：" + parseInt("18000000000000000")/1000000000000000000 + "NAS");
+        balance = balance.replace("\"","").replace("\"","");
+        $("#text-balance").text("奖池余额：" + parseInt(balance)/1000000000000000000 + "NAS");
     })
 
     getRank();
