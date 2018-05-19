@@ -6,7 +6,7 @@
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    
     <!--neb-->
     <script src="./dist/nebulas.js"></script>
     <script src="./dist/nebPay.js"></script>
@@ -37,6 +37,7 @@
         </div>
         <div id="main-content">
             <h3>你的小鸡</h3>
+            <div id="text-balance"><h5>奖池余额：</h5></div>
             <div class="row">
                 <div class="col-sm-4">
                     <div><img src="./img/gen0.png" height="80%" id="image-pet"></div>
@@ -51,7 +52,7 @@
                             <!-- 买卡 -->
                             <span id="span-buycard">
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                    data-target="#buyCard">双倍经验卡</button>
+                                    data-target="#buyCard">双倍积分卡</button>
                             <div class="modal fade" id="buyCard" tabindex="-1" role="dialog"
                                  aria-labelledby="myModalLabel">
                                 <div class="modal-dialog" role="document">
@@ -105,7 +106,7 @@
                     </div>
                     <div class="row property-line">
                         <div class="col-sm-5">
-                            <span class="property-title">代数</span>
+                            <span class="property-title">成神数</span>
                         </div>
                         <div class="col-sm-7">
                             <span class="property-content" id="property-gen">第0代</span>
@@ -204,7 +205,14 @@
                 </div>
             </div>
             <div class="sep"></div>
-            <p class="bg-info" style="padding: 10px;">* 区块链交易成功后有延迟，请耐心等待状态自动刷新</p>
+            <p class="bg-info" style="padding: 10px;">* 区块链交易成功后有延迟，请耐心等待状态自动刷新。</p>
+            <p class="bg-info" style="padding: 10px;">* 心情影响每次经验值增加数量,经验值满会成神。</p>
+            <p class="bg-info" style="padding: 10px;">* 喂食+10分，玩耍+10分，成神+100分，宠物死亡-100分。</p>
+            <p class="bg-info" style="padding: 10px;">* 饱食度每分钟会下降一点，如果饱食度小于-100，则宠物死亡。</p>
+            <p class="bg-info" style="padding: 10px;">* 双倍积分卡生效中每次行为会获得双倍分数，包括成神不包括死亡。</p>
+            <p class="bg-info" style="padding: 10px;">* 当系统存满0.5NAS的时候，会将奖励分发给排行榜前十名。排名越高，奖励越高。</p>
+            <p class="bg-info" style="padding: 10px;">* 作者会收取购买积分卡10%作为手续费。</p>
+
         </div>
     </div>
 </div>

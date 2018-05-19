@@ -86,19 +86,7 @@ const init = function () {
 
     // 排行榜
     $("#action-get-rank").click(function () {
-        callNeb("getRank", "", function (resp) {
-            // 展示排行榜数据
-            resp = JSON.parse(resp);
-            $("#rank-table tbody").html("");
-            for (let i = 0; i < resp.length; ++i) {
-                const item = resp[i];
-                const id = "n1..." + item.owner.substring(25);
-                $("#rank-table").append("<tr><td>" + (i + 1) + "</td><td>" + id + "</td><td>" + item.score + "</td></tr>");
-            }
-            console.log("排行榜数据:" + resp);
-        }, function (err) {
-            alert("获取排行榜数据失败:" + err);
-        })
+        getRank();
     });
 
     // 购买双倍积分卡
@@ -160,7 +148,31 @@ const refreshStatus = function () {
         console.log("总玩家人数:" + userCount);
         $("#user-count").text("总玩家人数:" + userCount);
     })
+
+    callNeb("getContractBalance","",function(balance){
+        console.log("奖池剩余金额" + parseInt("18000000000000000")/1000000000000000000 + "NAS");
+        $("#text-balance").text("奖池余额：" + parseInt("18000000000000000")/1000000000000000000 + "NAS");
+    })
+
+    getRank();
 };
+
+
+const getRank = function(){
+    callNeb("getRank", "", function (resp) {
+        // 展示排行榜数据
+        resp = JSON.parse(resp);
+        $("#rank-table tbody").html("");
+        for (let i = 0; i < resp.length; ++i) {
+            const item = resp[i];
+            const id = "n1..." + item.owner.substring(25);
+            $("#rank-table").append("<tr><td>" + (i + 1) + "</td><td>" + id + "</td><td>" + item.score + "</td></tr>");
+        }
+        console.log("排行榜数据:" + resp);
+    }, function (err) {
+        alert("获取排行榜数据失败:" + err);
+    })
+}
 
 const callNeb = function (func, args, callback, errCallback) {
     neb.api.call(
