@@ -4,7 +4,7 @@ $(document).ready(function () {
     init();
 });
 
-const dappContactAddress = "n1iK34UtVDtgkCNEr42UW3ksX5PrSWv1we5";
+const dappContactAddress = "n1zktFZeexLfbHmy8PNzaqX224N5DXstS8L";
 const nebulas = require("nebulas");
 const neb = new nebulas.Neb();
 neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
@@ -161,7 +161,7 @@ const refreshStatus = function () {
 
     callNeb("getContractBalance","",function(balance){
         balance = balance.replace("\"","").replace("\"","");
-        $("#text-balance").text("奖池余额：" + parseInt(balance)/1000000000000000000 + "NAS");
+        $("#text-balance").text("奖池余额：" + parseInt(balance)/1000000000000000000 + " NAS");
     });
     getRank();
 };
