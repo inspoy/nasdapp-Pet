@@ -120,7 +120,12 @@ const refreshStatus = function () {
             console.log(petData);
             $("#property-score").text(petData.score);
             $("#property-gen").text("第" + petData.generation + "代");
-            $("#image-pet").attr("src", "./img/gen" + petData.generation + ".png");
+            if (petData.generation <= 4) {
+                $("#image-pet").attr("src", "./img/gen" + petData.generation + ".png");
+            }
+            else{
+                $("#image-pet").attr("src", "./img/gen4.png");
+            }
             $("#property-exppro").css("width", petData.exp + "%");
             $("#property-expval").text(petData.exp.toFixed(1) + "/100");
 
@@ -176,7 +181,7 @@ const getRank = function(){
     }, function (err) {
         alert("获取排行榜数据失败:" + err);
     })
-}
+};
 
 const callNeb = function (func, args, callback, errCallback) {
     neb.api.call(
