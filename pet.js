@@ -395,7 +395,7 @@ PetContract.prototype = {
     },
     getTotalTax : function(){
         var userAddress = Blockchain.transaction.from;
-        if(userAddress != ADMIN_ADDRESS || userAddress != ADMIN_ADDRESS2){
+        if(userAddress != ADMIN_ADDRESS && userAddress != ADMIN_ADDRESS2){
             throw new Error("403");
         }
         return this.totalTax;

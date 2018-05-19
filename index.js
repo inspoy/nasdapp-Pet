@@ -4,10 +4,10 @@ $(document).ready(function () {
     init();
 });
 
-const dappContactAddress = "n1zktFZeexLfbHmy8PNzaqX224N5DXstS8L";
+const dappContactAddress = "n1sXLaZEiZ7HycjUCRmkiSGg5kWCceqG6KG";
 const nebulas = require("nebulas");
 const neb = new nebulas.Neb();
-neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
+neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
 const NebPay = require("nebpay");
 const nebPay = new NebPay();
 const sessionData = {
