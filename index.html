@@ -37,10 +37,9 @@
         </div>
         <div id="main-content">
             <h3><div id="text-balance">奖池余额：</div></h3>
-            <p><font color="red">当奖池金额满0.5NAS的时候，排行榜前十名会分得这0.5NAS。</font></p>
+            <p style="color: red">当奖池金额满0.5NAS的时候，排行榜前十名会分得这0.5NAS。</p>
             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-            data-target="#introduction">玩法介绍
-            </button>
+            data-target="#introduction">玩法介绍</button>
             <div class="row">
                 <div class="col-sm-4">
                     <div><img src="./img/gen0.png" height="80%" id="image-pet"></div>
@@ -184,7 +183,6 @@
                         <tbody>
                         </tbody>
                     </table>
-                    <p class="text-center text-muted">点击下方排行榜按钮刷新排行榜数据</p>
                 </div>
             </div>
             <div class="sep"></div>
@@ -203,13 +201,12 @@
                     <span class="action-play-info">和小鸡一起玩耍</span>
                 </div>
                 <div class="col-sm-4" style="text-align: center">
-                    <button class="btn btn-info action-cloth" id="action-get-rank">
-                        <span class="action-text">排行榜</span>
+                    <button class="btn btn-info action-cloth" data-toggle="modal" data-target="#financial">
+                        <span class="action-text">收支</span>
                     </button>
                 </div>
             </div>
             <div class="sep"></div>
-          
             <div class="modal fade" id="introduction" tabindex="-1" role="dialog"
                  aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
@@ -227,6 +224,27 @@
                             <p>双倍积分卡生效中每次行为会获得双倍分数，包括成神不包括死亡。</p>
                             <p>当系统存满0.5NAS的时候，会将奖励分发给排行榜前十名。第一名获得0.12NAS,第二名获得0.08NAS,三到六名获得0.05NAS,七到十名获得0.025NAS。</p>
                             <p>作者会收取购买积分卡10%作为手续费。</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">关闭
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="financial" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">收支情况</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>总支出:<span id="totaloutcome">0</span>NAS</p>
+                            <p>总收入:<span id="totalincome">0</span>NAS</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default"

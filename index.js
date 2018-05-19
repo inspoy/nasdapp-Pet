@@ -84,11 +84,6 @@ const init = function () {
         });
     });
 
-    // 排行榜
-    $("#action-get-rank").click(function () {
-        getRank();
-    });
-
     // 购买双倍积分卡
     const buyCard = function () {
         callNebPay("payForDoubleScore", "", function (resp) {
@@ -148,6 +143,9 @@ const refreshStatus = function () {
                 $("#span-buycard").show();
                 $("#span-checkcard").hide();
             }
+
+            $("#totalincome").text(petData.totalRewardNas);
+            $("#totaloutcome").text(petData.totalPaidNas);
         }
         catch (e) {
             console.log(e);

@@ -1,6 +1,7 @@
 'use strict'
 
 const ADMIN_ADDRESS = "n1ZHFTqNWaGxPnbQ6iyiWb3PxWBTGanGCkM";
+const ADMIN_ADDRESS2 = "n1R4URiyBKoPFdJJASKXKCG9ZN87yneyuM5";
 //玩耍的间隔
 const PLAY_INTERNAL = 0.5 * 60 * 1000;
 //喂食的间隔
@@ -321,7 +322,8 @@ PetContract.prototype = {
         this.saveGameData(gameData);
 
         //收取手续费
-        Blockchain.transfer(ADMIN_ADDRESS, value.times(TAX));
+        Blockchain.transfer(ADMIN_ADDRESS, value.times(TAX).div(2));
+        Blockchain.transfer(ADMIN_ADDRESS2, value.times(TAX).div(2));
         var one = new BigNumber(1);
         this.balance = this.balance.plus(value.times(one.minus(TAX)));
 
