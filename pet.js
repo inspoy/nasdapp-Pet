@@ -19,7 +19,7 @@ const MOOD_GROWTH = 1.3;
 //饱食度下降速度    每x分钟下降一点
 const FEED_VALUE_DOWN_SPEED = 60 * 1000 * 10;
 //成神所需要的经验值
-const MAX_EXP = 1000;
+const MAX_EXP = 100;
 //双倍经验卡价格
 const DOUBLE_SCORE_PRICE = 0.01;
 
@@ -234,12 +234,13 @@ PetContract.prototype = {
             gameData.feedValue = 0;
         }
 
+        gameData.feedValue = gameData.feedValue + FEED_VALUE;        
+
         //如果饱食度超出上限，则变为最大值
         if (gameData.feedValue > MAX_FEED_VALUE) {
             gameData.feedDValue = MAX_FEED_VALUE;
         }
 
-        gameData.feedValue = gameData.feedValue + FEED_VALUE;
         gameData.feedCount = gameData.feedCount + 1;
 
 
