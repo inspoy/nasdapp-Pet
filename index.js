@@ -119,7 +119,7 @@ const refreshStatus = function () {
             petData = JSON.parse(petData);
             console.log(petData);
             $("#property-score").text(petData.score);
-            $("#property-gen").text("第" + petData.generation + "代");
+            $("#property-gen").text(petData.generation);
             if (petData.generation <= 4) {
                 $("#image-pet").attr("src", "./img/gen" + petData.generation + ".png");
             }
