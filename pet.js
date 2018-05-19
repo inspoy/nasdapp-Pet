@@ -18,7 +18,7 @@ const MOOD_GROWTH = 1.3;
 //饱食度下降速度    每x分钟下降一点
 const FEED_VALUE_DOWN_SPEED = 60 * 1000 * 10;
 //成神所需要的经验值
-const MAX_EXP = 100;
+const MAX_EXP = 1000;
 //双倍经验卡价格
 const DOUBLE_SCORE_PRICE = 0.01;
 
