@@ -4,7 +4,7 @@ $(document).ready(function () {
     init();
 });
 
-const dappContactAddress = "n1eKbckvibcwidKP9woF28qDyroAz3CS5ff";
+const dappContactAddress = "n1fqSpfaXQfGmNZ4KaA52E7icPXq78PcCZz";
 const nebulas = require("nebulas");
 const neb = new nebulas.Neb();
 neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
@@ -175,7 +175,7 @@ const getRank = function(){
             const id = "n1..." + item.owner.substring(25);
             $("#rank-table").append("<tr><td>" + (i + 1) + "</td><td>" + id + "</td><td>" + item.score + "</td></tr>");
         }
-        console.log("排行榜数据:" + resp);
+        console.log("排行榜数据:" + JSON.stringify(resp));
     }, function (err) {
         alert("获取排行榜数据失败:" + err);
     })
