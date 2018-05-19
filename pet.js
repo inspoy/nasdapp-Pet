@@ -23,7 +23,6 @@ const MAX_EXP = 1000;
 //双倍经验卡价格
 const DOUBLE_SCORE_PRICE = 0.01;
 
-
 //与宠物玩耍得分
 const SCORE_PLAY_WITH_PET = 10;
 //喂养宠物得分
@@ -44,6 +43,9 @@ var PetContract = function () {
 
     //total user count
     LocalContractStorage.defineProperty(this, "userCount");
+
+
+    LocalContractStorage.defineProperty(this, "totalTax");
 
     LocalContractStorage.defineProperty(this, "balance", {
         stringify: function (obj) {
@@ -103,6 +105,7 @@ PetContract.prototype = {
     init: function () {
         this.userCount = 0;
         this.balance = new BigNumber(0);
+        this.totalTax = 0;
     },
 
     /**
@@ -319,6 +322,7 @@ PetContract.prototype = {
         }
 
         gameData.totalPaidNas = gameData.totalPaidNas + 0.01;
+        this.totalTax = this.totalTax + 0.01;
         this.saveGameData(gameData);
 
         //收取手续费
