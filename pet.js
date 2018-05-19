@@ -348,22 +348,26 @@ PetContract.prototype = {
                     Blockchain.transfer(address, nas1);
                     var gameData1 = this.getGameData(address);
                     gameData1.totalRewardNas = gameData1.totalRewardNas + 0.12;
+                    this.balance = this.balance.minus(nas1);
                     this.saveGameDataByAddress(address, gameData1);
                 } else if (i == 1) {
                     var nas2 = new BigNumber(80000000000000000);
                     Blockchain.transfer(address, nas2);
                     var gameData2 = this.getGameData(address);
-                    gameData2.totalRewardNas = gameData1.totalRewardNas + 0.08;
+                    gameData2.totalRewardNas = gameData2.totalRewardNas + 0.08;
+                    this.balance = this.balance.minus(nas2);
                     this.saveGameDataByAddress(address, gameData2);
                 } else if (i >= 2 && i < 6) {
                     var nas3 = new BigNumber(50000000000000000);
                     Blockchain.transfer(address, nas3);
+                    this.balance = this.balance.minus(nas3);
                     var gameData3 = this.getGameData(address);
                     gameData3.totalRewardNas = gameData3.totalRewardNas + 0.05;
                     this.saveGameDataByAddress(address, gameData3);
                 } else {
                     var nas4 = new BigNumber(25000000000000000);
                     Blockchain.transfer(address, nas4);
+                    this.balance = this.balance.minus(nas4);
                     var gameData4 = this.getGameData(address);
                     gameData4.totalRewardNas = gameData4.totalRewardNas + 0.025;
                     this.saveGameDataByAddress(address, gameData4);
@@ -376,14 +380,10 @@ PetContract.prototype = {
                 var address = this.gameDataIndex.get(i);
                 var data = this.gameDatas.get(address);
                 data.score = 0;
-                data.doubleScoreTimeMillis = currentTimeMillis;
-                data.lastFeedTimeMillis = currentTimeMillis;
-                data.lastPlayTimeMillis = currentTimeMillis;
-                data.exp = 0;
-                data.mood = 0.1;
-                data.feedValue = 0;
                 this.saveGameDataByAddress(address, data);
             }
+
+            
         }
 
 
