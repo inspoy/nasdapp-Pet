@@ -111,6 +111,11 @@ const doActionTipsAnimate = function (ele) {
 const refreshStatus = function () {
     callNeb("getPetInfo", "", function (petData) {
         try {
+            if (typeof petData === "string" && petData === "宠物死亡！"){
+                alert("你的宠物已经死了！");
+                refreshStatus();
+                return;
+            }
             petData = JSON.parse(petData);
             console.log(petData);
             $("#property-score").text(petData.score);
@@ -147,12 +152,12 @@ const refreshStatus = function () {
     callNeb("getUserCount", "", function (userCount) {
         console.log("总玩家人数:" + userCount);
         $("#user-count").text("总玩家人数:" + userCount);
-    })
+    });
 
     callNeb("getContractBalance","",function(balance){
         console.log("奖池剩余金额" + parseInt("18000000000000000")/1000000000000000000 + "NAS");
         $("#text-balance").text("奖池余额：" + parseInt("18000000000000000")/1000000000000000000 + "NAS");
-    })
+    });
 
     getRank();
 };
