@@ -32,8 +32,32 @@
                 <input type="text" class="form-control" id="wallet-address" placeholder="输入你的钱包地址">
             </div>
             <p class="text-muted">如果你没有小鸡的话系统会自动帮你领养一只小鸡！</p>
-            <p class="bg-info" style="padding: 10px; font-weight: bold;">你必须安装<a
-                    href="https://github.com/ChengOrangeJu/WebExtensionWallet">Chrome钱包插件</a>才能正常使用本产品（已安装请忽略）</p>
+            <p class="bg-info" style="padding: 10px; font-weight: bold;">
+                你必须安装<a href="https://github.com/ChengOrangeJu/WebExtensionWallet">Chrome钱包插件</a>才能正常使用本产品（已安装请忽略）</p>
+            <p class="bg-info" style="padding:10px">
+                <button class="btn btn-default" data-toggle="modal" data-target="#getnas">刚注册好钱包没有余额玩不了？</button>
+            </p>
+            <div class="modal fade" id="getnas" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">刚注册好钱包没有余额玩不了？</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>你可以发送邮件到XXX</p>
+                            <p>请在标题中注明XXX</p>
+                            <p>作者确认后将会给您0.011NAS，这些NAS足够您畅玩本游戏并且还能购买一张双倍积分卡</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <button class="btn btn-success" id="login-btn">登录</button>
         </div>
         <div id="main-content">
