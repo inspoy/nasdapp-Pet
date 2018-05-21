@@ -169,7 +169,7 @@ const getRank = function () {
     callNeb("getRank", "", function (resp) {
         // 展示排行榜数据
         resp = JSON.parse(resp);
-		resp.sort(function(a,b){return a.score<b.score;});
+		resp.sort(function(a,b){return b.score-a.score;});
         $("#rank-table tbody").html("");
         for (let i = 0; i < resp.length; ++i) {
             const item = resp[i];
