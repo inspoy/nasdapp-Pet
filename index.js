@@ -106,7 +106,7 @@ const doActionTipsAnimate = function (ele) {
 const refreshStatus = function () {
     callNeb("getPetInfo", "", function (petData) {
         try {
-            if (typeof petData === "string" && petData === "宠物死亡！"){
+            if (typeof petData === "string" && petData === "宠物死亡！") {
                 alert("你的宠物已经死了！");
                 refreshStatus();
                 return;
@@ -118,7 +118,7 @@ const refreshStatus = function () {
             if (petData.generation <= 4) {
                 $("#image-pet").attr("src", "./img/gen" + petData.generation + ".png");
             }
-            else{
+            else {
                 $("#image-pet").attr("src", "./img/gen4.png");
             }
             $("#property-exppro").css("width", petData.exp + "%");
@@ -157,15 +157,15 @@ const refreshStatus = function () {
         $("#user-count").text("总玩家人数:" + userCount);
     });
 
-    callNeb("getContractBalance","",function(balance){
-        balance = balance.replace("\"","").replace("\"","");
-        $("#text-balance").text("奖池余额：" + parseInt(balance)/1000000000000000000 + " NAS");
+    callNeb("getContractBalance", "", function (balance) {
+        balance = balance.replace("\"", "").replace("\"", "");
+        $("#text-balance").text("奖池余额：" + parseInt(balance) / 1000000000000000000 + " NAS");
     });
     getRank();
 };
 
 
-const getRank = function(){
+const getRank = function () {
     callNeb("getRank", "", function (resp) {
         // 展示排行榜数据
         resp = JSON.parse(resp);
@@ -174,6 +174,7 @@ const getRank = function(){
             const item = resp[i];
             const id = "n1..." + item.owner.substring(25);
             $("#rank-table").append("<tr><td>" + (i + 1) + "</td><td>" + id + "</td><td>" + item.score + "</td></tr>");
+            if (i >= 9) break; // 最多显示10条
         }
         console.log("排行榜数据:" + JSON.stringify(resp));
     }, function (err) {
